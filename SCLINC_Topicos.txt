@@ -1,0 +1,11 @@
+Registo Eletrónico de Saúde: Permite a criação e gestão de um registo clínico eletrónico para cada paciente, facilitando o acesso à história clínica, diagnósticos, procedimentos, prescrições e resultados de exames.
+
+Prescrição Eletrónica: Oferece um sistema de prescrição eletrónica de medicamentos, tornando o processo mais seguro e eficiente.
+
+Gestão de Agendamentos: Inclui funcionalidades para agendar consultas, exames e outros procedimentos, melhorando a organização e o fluxo de trabalho dos profissionais de saúde.
+
+Interoperabilidade: O sistema é desenhado para ser interoperável com outros sistemas de informação do SNS, garantindo a partilha segura de informações clínicas entre diferentes unidades de saúde.
+
+Acesso por Parte dos Pacientes: Em algumas configurações, os pacientes podem ter acesso a partes do seu registo clínico, permitindo-lhes acompanhar o seu próprio estado de saúde e tratamentos.
+
+Segurança e Privacidade: O SClínico é construído com fortes medidas de segurança para proteger a confidencialidade e integridade dos dados dos pacientes.

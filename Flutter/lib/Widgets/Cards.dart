@@ -3,20 +3,20 @@ import '../Class/Class_MedicalPrescription.dart';
 import 'package:intl/intl.dart';
 import '../Menus/MainMenu.dart';
 
-class MedicationCard extends StatefulWidget {
-  final CardMedication cardMedication;
+class UtenteCard extends StatefulWidget {
+  final CardUtente cardUtente;
   final Appointment appointment;
-  MedicationCard({
+  UtenteCard({
     Key? key,
-    required this.cardMedication,
+    required this.cardUtente,
     required this.appointment, // Torna o callback um parâmetro obrigatório
   }) : super(key: key);
 
   @override
-  State<MedicationCard> createState() => _MedicationCard();
+  State<UtenteCard> createState() => _UtenteCard();
 }
 
-class _MedicationCard extends State<MedicationCard> {
+class _UtenteCard extends State<UtenteCard> {
   bool isExpanded = false;
   String imagePath = '';
 
@@ -29,15 +29,14 @@ class _MedicationCard extends State<MedicationCard> {
       elevation: 4.0,
       child: ExpansionTile(
         title: Text(
-          widget.cardMedication.nomdeMedicamento,
+          widget.cardUtente.nomdeMedicamento,
           style: const TextStyle(
             fontSize: 18.0,
             fontWeight: FontWeight.bold,
           ),
         ),
-        subtitle: !isExpanded
-            ? Text('Dosagem: ${widget.cardMedication.dosagem}')
-            : null,
+        subtitle:
+            !isExpanded ? Text('Dosagem: ${widget.cardUtente.dosagem}') : null,
         leading: CircleAvatar(
           backgroundColor: Colors.grey[200],
           child: const Icon(Icons.medication, color: Colors.black54),
@@ -102,7 +101,7 @@ class _MedicationCard extends State<MedicationCard> {
     });
   }
 
-  bool isWithinMedicationPeriod(String startDateString, String endDateString) {
+  bool isWithinUtentePeriod(String startDateString, String endDateString) {
     DateTime startDate = DateTime.parse(startDateString);
     DateTime endDate = DateTime.parse(endDateString);
     DateTime today = DateTime.now();

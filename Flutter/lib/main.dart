@@ -10,11 +10,12 @@ import 'package:intl/date_symbol_data_local.dart';
 void main() {
   WidgetsFlutterBinding.ensureInitialized();
 
-  initializeDateFormatting('pt_PT', null).then((_) => runApp(const MedAlert()));
+  initializeDateFormatting('pt_PT', null)
+      .then((_) => runApp(const UtenteCare()));
 }
 
-class MedAlert extends StatelessWidget {
-  const MedAlert({super.key});
+class UtenteCare extends StatelessWidget {
+  const UtenteCare({super.key});
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -42,7 +43,7 @@ class MedAlert extends StatelessWidget {
     bool tryagain = await checkSupabaseConnection();
     if (tryagain) {
       Navigator.pushReplacement(
-          context, MaterialPageRoute(builder: (context) => const MedAlert()));
+          context, MaterialPageRoute(builder: (context) => const UtenteCare()));
     }
   }
 }

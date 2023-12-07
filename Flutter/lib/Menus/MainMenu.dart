@@ -37,8 +37,8 @@ class _MainMenuState extends State<MainMenu> {
                 itemCount: appointmentUtente.length,
                 itemBuilder: (context, index) {
                   final appointment = appointmentUtente[index];
-                  return MedicationCard(
-                    cardMedication: CardMedication(
+                  return UtenteCard(
+                    cardUtente: CardUtente(
                       nomdeMedicamento: appointment.nomeDoMedicamento,
                       dosagem: appointment.dosagem,
                       status: appointment.status,

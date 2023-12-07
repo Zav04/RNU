@@ -3,6 +3,7 @@ import 'package:gap/gap.dart';
 import '../Controller/DataBaseConection.dart';
 import '../Overlay/Overlay.dart';
 import '../Controller/ChangePageOverlay.dart';
+import 'package:flutter/services.dart';
 
 class ForgotPassword extends StatefulWidget {
   const ForgotPassword({super.key});
@@ -13,7 +14,7 @@ class ForgotPassword extends StatefulWidget {
 
 class _ForgotPasswordState extends State<ForgotPassword>
     with ErrorMessageOverlayMixin {
-  final TextEditingController emailController = TextEditingController();
+  final TextEditingController heathnumber = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -22,7 +23,7 @@ class _ForgotPasswordState extends State<ForgotPassword>
           FocusScope.of(context).unfocus();
         },
         child: Scaffold(
-          backgroundColor: const Color(0xFFE8ECF9),
+          backgroundColor: Colors.white,
           body: SingleChildScrollView(
             child: Column(
               children: <Widget>[
@@ -32,18 +33,16 @@ class _ForgotPasswordState extends State<ForgotPassword>
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      const Gap(150),
+                      const Gap(50),
                       Container(
                         width: 365,
-                        height: 177,
+                        height: 270,
                         decoration: const ShapeDecoration(
                           image: DecorationImage(
                             image: AssetImage('assets/images/Logo.png'),
                             fit: BoxFit.fill,
                           ),
-                          shape: RoundedRectangleBorder(
-                            side: BorderSide(width: 0),
-                          ),
+                          shape: RoundedRectangleBorder(),
                         ),
                       ),
                     ],
@@ -51,39 +50,49 @@ class _ForgotPasswordState extends State<ForgotPassword>
                 ),
                 const Gap(40),
                 const Text(
-                  'Insira um email registado',
+                  'Insira um Número de Saúde',
                   style: TextStyle(fontSize: 15, color: Colors.black),
                   textAlign: TextAlign.left,
                 ),
                 const Gap(10),
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 15),
-                  child: TextField(
-                    controller: emailController,
-                    keyboardType: TextInputType.emailAddress,
+                  child: TextFormField(
+                    controller: heathnumber,
+                    keyboardType: TextInputType
+                        .number, // Define o teclado para tipo numérico
+                    inputFormatters: [
+                      FilteringTextInputFormatter
+                          .digitsOnly, // Permite apenas dígitos
+                      LengthLimitingTextInputFormatter(
+                          9), // Limita a entrada a 9 dígitos
+                    ],
                     decoration: const InputDecoration(
-                        border: OutlineInputBorder(),
-                        labelText: 'Email',
-                        hintText: 'Insira um e-mail válido'),
+                      labelText: 'Número de Utente',
+                      border: OutlineInputBorder(),
+                      hintText: 'Insira o seu Número de Utente',
+                    ),
                   ),
                 ),
                 const Gap(10),
                 ElevatedButton(
                   onPressed: () async {
-                    bool isValid = await _dbIsEmailValid(emailController.text);
+                    //TODO MUDAR ESTA FUNÇÃO PARA RECEBER UM NUMERO E DEVOLVBER SE É VALIDO OU NÃO
+                    bool isValid = await _dbIsEmailValid(heathnumber.text);
                     if (isValid) {
-                      isValid = await _dbEmailCheck(emailController.text);
+                      //TODO MUDAR ESTA FUNÇÃO PARA RECEBER UM NUMERO E DEVOLVBER SE EXISTE OU NÃO
+                      isValid = await _dbEmailCheck(heathnumber.text);
                       if (isValid) {
                         removeErrorMessageOverlay();
                         showErrorMessageOverlay("Pedido enviado", 2,
                             action: ChangeToHome());
                       } else {
                         showErrorMessageOverlay(
-                            'O email inserido não esta registado', 1);
+                            'Número de Utente inserido não esta registado', 1);
                       }
                     } else {
                       showErrorMessageOverlay(
-                          'O email inserido não é um email valido', 1);
+                          'Número de Utente não é um email valido', 1);
                     }
                   },
                   child: const Text(

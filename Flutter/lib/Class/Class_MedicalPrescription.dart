@@ -38,16 +38,16 @@ class Appointment {
   }
 }
 
-class CardMedication {
+class CardUtente {
   final String nomdeMedicamento;
   final String dosagem;
   final int status;
   // 0: Concluído, 1: Em andamento, 2: Cancelado
 
-  CardMedication(
+  CardUtente(
       {required this.nomdeMedicamento,
       required this.dosagem,
       required this.status});
 }
 
-List<CardMedication>? appointmentCards;
+List<CardUtente>? appointmentCards;
