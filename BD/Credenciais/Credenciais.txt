@@ -1,0 +1,3 @@
+RNU
+id:db.jchfvcihvyqiqxzpkboa.supabase.co
+PW:GdNW8Y5hMe0AqQqo
