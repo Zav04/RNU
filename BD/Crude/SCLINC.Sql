@@ -1,8 +1,14 @@
+CREATE TABLE Especialidade (
+    especialidade_id SERIAL PRIMARY KEY,
+    nome VARCHAR(160) UNIQUE
+);
+
 CREATE TABLE Medicos (
     medico_id SERIAL PRIMARY KEY,
     nome VARCHAR(160),
-    especialidade VARCHAR(100),
-    contato VARCHAR(50)
+    especialidade_id INTEGER,
+    contato VARCHAR(50),
+	FOREIGN KEY (especialidade_id) REFERENCES Especialidade(especialidade_id)
 );
 
 CREATE TABLE Consultas (
@@ -15,15 +21,21 @@ CREATE TABLE Consultas (
     FOREIGN KEY (medico_id) REFERENCES Medicos(medico_id)
 );
 
+CREATE TABLE Medicamento (
+    medicamento_id SERIAL PRIMARY KEY,
+    nome VARCHAR(160) UNIQUE
+);
+
 CREATE TABLE Prescricoes (
     prescricao_id SERIAL PRIMARY KEY,
     consulta_id INTEGER,
     medico_id INTEGER,
-    medicamento VARCHAR(100),
+    medicamento_id INTEGER,
     dosagem VARCHAR(50),
     instrucoes TEXT,
     FOREIGN KEY (consulta_id) REFERENCES Consultas(consulta_id),
-    FOREIGN KEY (medico_id) REFERENCES Medicos(medico_id)
+    FOREIGN KEY (medico_id) REFERENCES Medicos(medico_id),
+	FOREIGN KEY (medicamento_id) REFERENCES Medicamento(medicamento_id)
 );
 
 CREATE TABLE Exames (

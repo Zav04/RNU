@@ -18,7 +18,7 @@ class _MainMenuState extends State<MainMenu> {
   @override
   void initState() {
     super.initState();
-    fetchAppointments(widget.user.userId); // Inicializa com o dia atual
+    //fetchAppointments(widget.user.userId); // Inicializa com o dia atual
   }
 
   @override
@@ -67,18 +67,18 @@ class _MainMenuState extends State<MainMenu> {
     );
   }
 
-  void fetchAppointments(int userId) async {
-    var result = await getMedication(userId);
-    if (result.data is List) {
-      setState(() {
-        appointmentUtente = result.data
-            .map<Appointment>((item) => Appointment.fromJson(item))
-            .toList();
-      });
-    } else {
-      setState(() {
-        appointmentUtente = [];
-      });
-    }
-  }
+//   void fetchAppointments(int userId) async {
+//     var result = await getMedication(userId);
+//     if (result.data is List) {
+//       setState(() {
+//         appointmentUtente = result.data
+//             .map<Appointment>((item) => Appointment.fromJson(item))
+//             .toList();
+//       });
+//     } else {
+//       setState(() {
+//         appointmentUtente = [];
+//       });
+//     }
+//   }
 }

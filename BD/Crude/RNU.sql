@@ -1,8 +1,7 @@
 CREATE TABLE Utente (
 	utente_id SERIAL PRIMARY KEY,
 	identificacao_id BIGINT,
-	entidade_id BIGINT,
-	beneficio_id BIGINT
+	entidade_id BIGINT
 );
 	
 
@@ -16,23 +15,27 @@ CREATE TABLE Identificacao (
     data_nascimento DATE,
     sexo_utente CHAR(1),
     pais_nacionalidade VARCHAR(10),
+    phone_number VARCHAR NOT NULL,
+	address VARCHAR NOT NULL,
+    door_number BIGINT NOT NULL,
+    floor_number BIGINT,
+    zip_code VARCHAR NOT NULL,
     obito BOOLEAN,
     duplicado BOOLEAN
 );
 
 CREATE TABLE EntidadeResponsavel (
     entidade_id SERIAL PRIMARY KEY,
-    utente_id INTEGER,
     codigo VARCHAR(20),
     descricao VARCHAR(100),
     numero_benef_entidade VARCHAR(20),
     data_validade DATE,
-    pais VARCHAR(10)
+    pais VARCHAR(10),
+	cartao_id BIGINT
 );
 
 CREATE TABLE Beneficios (
     beneficio_id SERIAL PRIMARY KEY,
-    utente_id INTEGER,
     tipo CHAR(1),
     descricao VARCHAR(40),
     data_inicio DATE,
@@ -41,7 +44,6 @@ CREATE TABLE Beneficios (
 
 CREATE TABLE Cartao (
     cartao_id SERIAL PRIMARY KEY,
-    utente_id INTEGER,
     numero_cartao VARCHAR(20),
     tipo_cartao VARCHAR(10)
 );
@@ -60,6 +62,7 @@ CREATE TABLE RECM (
     descricao VARCHAR(40),
     data_inicio DATE,
     data_fim DATE
+	
 );
 
 CREATE TABLE IsencaoTaxa (
@@ -88,6 +91,14 @@ CREATE TABLE Utilizadores (
     ativo BOOLEAN DEFAULT TRUE
 );
 
+CREATE TABLE UtentesBeneficios (
+    utente_id BIGINT NOT NULL,
+    beneficio_id BIGINT NOT NULL,
+    PRIMARY KEY (utente_id, beneficio_id),
+    FOREIGN KEY (utente_id) REFERENCES Utente(utente_id) ON DELETE CASCADE,
+    FOREIGN KEY (beneficio_id) REFERENCES Beneficios(beneficio_id) ON DELETE CASCADE
+);
+
 
 ALTER TABLE Utilizadores
 ADD CONSTRAINT fk_identificacao
@@ -96,26 +107,22 @@ FOREIGN KEY (identificacao_id) REFERENCES Identificacao(identificacao_id);
 
 ALTER TABLE Utente
 ADD FOREIGN KEY (identificacao_id) REFERENCES Identificacao(identificacao_id),
-ADD FOREIGN KEY (entidade_id) REFERENCES EntidadeResponsavel(entidade_id),
-ADD FOREIGN KEY (beneficio_id) REFERENCES Beneficios(beneficio_id);
+ADD FOREIGN KEY (entidade_id) REFERENCES EntidadeResponsavel(entidade_id);
 
-ALTER TABLE EntidadeResponsavel
-ADD FOREIGN KEY (utente_id) REFERENCES Utente(utente_id);
-
-ALTER TABLE Beneficios
-ADD FOREIGN KEY (utente_id) REFERENCES Utente(utente_id);
-
-ALTER TABLE Cartao
-ADD FOREIGN KEY (utente_id) REFERENCES Utente(utente_id);
-
-ALTER TABLE Identificacao
-ADD FOREIGN KEY (utente_id) REFERENCES Utente(utente_id);
 
 ALTER TABLE RECM
 ADD FOREIGN KEY (beneficio_id) REFERENCES Beneficios(beneficio_id);
+
+ALTER TABLE EntidadeResponsavel ADD COLUMN  cartao_id BIGINT;
+
+ALTER TABLE EntidadeResponsavel
+ADD FOREIGN KEY (cartao_id) REFERENCES Cartao(cartao_id);
 
 ALTER TABLE IsencaoTaxa
 ADD FOREIGN KEY (beneficio_id) REFERENCES Beneficios(beneficio_id);
 
 ALTER TABLE OutrosBeneficios
 ADD FOREIGN KEY (beneficio_id) REFERENCES Beneficios(beneficio_id);
+
+
+

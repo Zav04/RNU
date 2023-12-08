@@ -17,7 +17,7 @@ class LoginPage extends StatefulWidget {
 
 class _LoginPageState extends State<LoginPage> with ErrorMessageOverlayMixin {
   final TextEditingController _passwordController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _nssController = TextEditingController();
   User validUser = User(userId: 0);
   @override
   Widget build(BuildContext context) {
@@ -56,12 +56,13 @@ class _LoginPageState extends State<LoginPage> with ErrorMessageOverlayMixin {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 15),
                   child: TextField(
-                    keyboardType: TextInputType.emailAddress,
-                    controller: _emailController,
+                    keyboardType: TextInputType.number,
+                    controller: _nssController,
                     decoration: const InputDecoration(
                         border: OutlineInputBorder(),
-                        labelText: 'Email',
-                        hintText: 'Insira um e-mail válido como abc@gmail.com'),
+                        labelText: 'Numero de Saúde',
+                        hintText:
+                            'Insira um Numero de Saúde válido como 123456789'),
                   ),
                 ),
                 Padding(
@@ -81,23 +82,23 @@ class _LoginPageState extends State<LoginPage> with ErrorMessageOverlayMixin {
                     'Esqueceu-se da sua Palavra passe',
                     style: TextStyle(
                         fontSize: 15,
-                        color: Colors.blue), // Você pode personalizar a cor
+                        color: Color.fromRGBO(119, 212, 252,
+                            1.0)), // Você pode personalizar a cor
                   ),
                 ),
                 Container(
                   height: 50,
                   width: 250,
                   decoration: BoxDecoration(
-                      color: Colors.blue,
+                      color: const Color.fromRGBO(119, 212, 252, 1.0),
                       borderRadius: BorderRadius.circular(20)),
                   child: ElevatedButton(
                     onPressed: () async {
                       var validation = await login(
-                          email: _emailController.text,
+                          nss: _nssController.text,
                           password: _passwordController.text);
                       if (validation.success == true) {
-                        int id = await getId(_emailController.text);
-                        validUser.userId = id;
+                        validUser.userId = validation.data;
                         showErrorMessageOverlay("Login efetuado com Sucesso", 2,
                             action: ChangeToMainMenu(user: validUser));
                       } else {
@@ -109,6 +110,13 @@ class _LoginPageState extends State<LoginPage> with ErrorMessageOverlayMixin {
                         }
                       }
                     },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color.fromRGBO(
+                          119, 212, 252, 1.0), // Esta é a cor de fundo do botão
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                    ),
                     child: const Text(
                       'Login',
                       style: TextStyle(color: Colors.white, fontSize: 25),
@@ -127,7 +135,8 @@ class _LoginPageState extends State<LoginPage> with ErrorMessageOverlayMixin {
                     'Novo Utilizador? Criar conta',
                     style: TextStyle(
                         fontSize: 15,
-                        color: Colors.blue), // Você pode personalizar a cor
+                        color: Color.fromRGBO(119, 212, 252,
+                            1.0)), // Você pode personalizar a cor
                   ),
                 ),
               ],

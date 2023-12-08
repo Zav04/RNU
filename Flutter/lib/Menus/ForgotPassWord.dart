@@ -78,10 +78,10 @@ class _ForgotPasswordState extends State<ForgotPassword>
                 ElevatedButton(
                   onPressed: () async {
                     //TODO MUDAR ESTA FUNÇÃO PARA RECEBER UM NUMERO E DEVOLVBER SE É VALIDO OU NÃO
-                    bool isValid = await _dbIsEmailValid(heathnumber.text);
+                    bool isValid = await _dbIsNSSValid(heathnumber.text);
                     if (isValid) {
                       //TODO MUDAR ESTA FUNÇÃO PARA RECEBER UM NUMERO E DEVOLVBER SE EXISTE OU NÃO
-                      isValid = await _dbEmailCheck(heathnumber.text);
+                      isValid = await _dbNSSCheck(heathnumber.text);
                       if (isValid) {
                         removeErrorMessageOverlay();
                         showErrorMessageOverlay("Pedido enviado", 2,
@@ -92,7 +92,7 @@ class _ForgotPasswordState extends State<ForgotPassword>
                       }
                     } else {
                       showErrorMessageOverlay(
-                          'Número de Utente não é um email valido', 1);
+                          'Número de Utente não é valido', 1);
                     }
                   },
                   child: const Text(
@@ -106,13 +106,13 @@ class _ForgotPasswordState extends State<ForgotPassword>
         ));
   }
 
-  Future<bool> _dbIsEmailValid(String email) async {
-    bool status = await dbCheckEmailValid(email);
+  Future<bool> _dbIsNSSValid(String email) async {
+    bool status = await dbCheckNSSValid(email);
     return status;
   }
 
-  Future<bool> _dbEmailCheck(String email) async {
-    bool emailExists = await dbCheckEmailExists(email);
+  Future<bool> _dbNSSCheck(String nrNSS) async {
+    bool emailExists = await dbCheckNSSExists(nrNSS);
     return emailExists;
   }
 }

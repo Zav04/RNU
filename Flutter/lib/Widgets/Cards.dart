@@ -95,12 +95,6 @@ class _UtenteCard extends State<UtenteCard> {
     return DateFormat('dd/MM/yyyy').format(date);
   }
 
-  void onImageCaptured(String imagePath) {
-    setState(() {
-      this.imagePath = imagePath;
-    });
-  }
-
   bool isWithinUtentePeriod(String startDateString, String endDateString) {
     DateTime startDate = DateTime.parse(startDateString);
     DateTime endDate = DateTime.parse(endDateString);

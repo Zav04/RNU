@@ -28,7 +28,7 @@ class SplashScreen extends StatelessWidget {
             ),
             const SizedBox(height: 20),
             LoadingAnimationWidget.bouncingBall(
-              color: const Color.fromRGBO(62, 88, 143, 1.0),
+              color: const Color.fromRGBO(119, 212, 252, 1.0),
               size: 80,
             ),
             const SizedBox(height: 10),

@@ -21,11 +21,9 @@ class _CreateUserState extends State<CreateUser> with ErrorMessageOverlayMixin {
   String dropdownValue = 'Masculino'; // Valor inicial
 
   //Controladores
-  final TextEditingController _firstNameController = TextEditingController();
-  final TextEditingController _lastNameController = TextEditingController();
+  final TextEditingController _fullNameController = TextEditingController();
   final TextEditingController _healthNumberController = TextEditingController();
   final TextEditingController _birthDateController = TextEditingController();
-  final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _phoneNumberController = TextEditingController();
   final TextEditingController _addressController = TextEditingController();
@@ -33,7 +31,8 @@ class _CreateUserState extends State<CreateUser> with ErrorMessageOverlayMixin {
   final TextEditingController _floorNumberController = TextEditingController();
   final TextEditingController _zipCodeController = TextEditingController();
   String _selectedGender = 'Masculino';
-  String _selectedAcountType = 'Paciente';
+  String _selectedAcountType = 'Utente';
+  String _selectedCountry = 'Portugal';
 
   @override
   Widget build(BuildContext context) {
@@ -90,19 +89,11 @@ class _CreateUserState extends State<CreateUser> with ErrorMessageOverlayMixin {
                           children: <Widget>[
                             const Gap(10),
                             TextFormField(
-                              controller: _firstNameController,
+                              controller: _fullNameController,
                               decoration: const InputDecoration(
-                                  labelText: 'Primeiro Nome',
+                                  labelText: 'Nome Completo',
                                   border: OutlineInputBorder(),
-                                  hintText: 'Insira o seu Primeiro Nome'),
-                            ),
-                            const Gap(10),
-                            TextFormField(
-                              controller: _lastNameController,
-                              decoration: const InputDecoration(
-                                  labelText: 'Ultimo Nome',
-                                  border: OutlineInputBorder(),
-                                  hintText: 'Insira o seu Ultimo Nome'),
+                                  hintText: 'Insira o seu Nome Completo'),
                             ),
                             const Gap(10),
                             TextFormField(
@@ -150,11 +141,7 @@ class _CreateUserState extends State<CreateUser> with ErrorMessageOverlayMixin {
                             DropdownButtonFormField<String>(
                               value: _selectedAcountType,
                               items: <String>[
-                                'Médico',
-                                'Paciente',
-                                'Profissional de Saude',
-                                'Familiar',
-                                'Administrador'
+                                'Utente',
                               ].map<DropdownMenuItem<String>>((String value) {
                                 return DropdownMenuItem<String>(
                                   value: value,
@@ -194,7 +181,33 @@ class _CreateUserState extends State<CreateUser> with ErrorMessageOverlayMixin {
                                 });
                               },
                               decoration: InputDecoration(
-                                labelText: 'Gender',
+                                labelText: 'Genero',
+                                border: OutlineInputBorder(
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                contentPadding: const EdgeInsets.symmetric(
+                                    horizontal: 12, vertical: 10),
+                                // Removido suffixIcon: const Icon(Icons.arrow_drop_down),
+                              ),
+                            ),
+                            const Gap(10),
+                            DropdownButtonFormField<String>(
+                              value: _selectedCountry,
+                              items: <String>[
+                                'Portugal'
+                              ].map<DropdownMenuItem<String>>((String value) {
+                                return DropdownMenuItem<String>(
+                                  value: value,
+                                  child: Text(value),
+                                );
+                              }).toList(),
+                              onChanged: (newValue) {
+                                setState(() {
+                                  _selectedCountry = newValue!;
+                                });
+                              },
+                              decoration: InputDecoration(
+                                labelText: 'País',
                                 border: OutlineInputBorder(
                                   borderRadius: BorderRadius.circular(8),
                                 ),
@@ -277,9 +290,6 @@ class _CreateUserState extends State<CreateUser> with ErrorMessageOverlayMixin {
                             ElevatedButton(
                               onPressed: () async {
                                 var result = await createUser(
-                                  email: _emailController.text.isNotEmpty
-                                      ? _emailController.text
-                                      : null,
                                   password: _passwordController.text.isNotEmpty
                                       ? _passwordController.text
                                       : null,
@@ -288,18 +298,15 @@ class _CreateUserState extends State<CreateUser> with ErrorMessageOverlayMixin {
                                           ? int.tryParse(
                                               _healthNumberController.text)
                                           : null,
-                                  firstName:
-                                      _firstNameController.text.isNotEmpty
-                                          ? _firstNameController.text
-                                          : null,
-                                  lastName: _lastNameController.text.isNotEmpty
-                                      ? _lastNameController.text
+                                  fullname: _fullNameController.text.isNotEmpty
+                                      ? _fullNameController.text
                                       : null,
                                   birthDate:
                                       _birthDateController.text.isNotEmpty
                                           ? _birthDateController.text
                                           : null,
                                   gender: _selectedGender,
+                                  nacionalidade: _selectedCountry,
                                   phoneNumber:
                                       _phoneNumberController.text.isNotEmpty
                                           ? _phoneNumberController.text
@@ -313,13 +320,11 @@ class _CreateUserState extends State<CreateUser> with ErrorMessageOverlayMixin {
                                       : null,
                                   floorNumber:
                                       _floorNumberController.text.isNotEmpty
-                                          ? int.tryParse(
-                                              _floorNumberController.text)
+                                          ? _floorNumberController.text
                                           : null,
                                   zipCode: _zipCodeController.text.isNotEmpty
                                       ? _zipCodeController.text
                                       : null,
-                                  role: _selectedAcountType,
                                 );
                                 if (result.success == true) {
                                   showErrorMessageOverlay(
