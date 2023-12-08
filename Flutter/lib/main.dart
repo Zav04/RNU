@@ -38,7 +38,7 @@ class UtenteCare extends StatelessWidget {
     );
   }
 
-  // Função assíncrona separada para tentar novamente
+// Função assíncrona separada para tentar novamente
   void tryAgain(BuildContext context) async {
     bool tryagain = await checkSupabaseConnection();
     if (tryagain) {

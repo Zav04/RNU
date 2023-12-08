@@ -109,8 +109,64 @@ Future<CreateDBResponse> login({
 }) async {
   try {
     final response = await supabase.rpc('verify_user_credentials',
-        params: {'_numero_sns': nss, '_passowrd': password}).execute();
+        params: {'_numero_sns': nss, '_password': password}).execute();
 
+    //Sucesso
+    if (response.error == null && response.data != -99) {
+      return CreateDBResponse(
+        success: true,
+        data: response.data,
+      );
+    } else {
+      // Falha, com mensagem de erro
+      return CreateDBResponse(
+        success: false,
+        errorMessage: response.error?.message,
+      );
+    }
+  } catch (e) {
+    // Falha, com exceção capturada
+    return CreateDBResponse(
+      success: false,
+      errorMessage: e.toString(),
+    );
+  }
+}
+
+Future<CreateDBResponse> getUtenteDetails({
+  required int? id,
+}) async {
+  try {
+    final response = await supabase
+        .rpc('get_utente_details', params: {'_utente_id': id}).execute();
+    //Sucesso
+    if (response.error == null) {
+      return CreateDBResponse(
+        success: true,
+        data: response.data,
+      );
+    } else {
+      // Falha, com mensagem de erro
+      return CreateDBResponse(
+        success: false,
+        errorMessage: response.error?.message,
+      );
+    }
+  } catch (e) {
+    // Falha, com exceção capturada
+    return CreateDBResponse(
+      success: false,
+      errorMessage: e.toString(),
+    );
+  }
+}
+
+Future<CreateDBResponse> getUtenteConsultas({
+  required int? id,
+}) async {
+  try {
+    final response = await supabase
+        .rpc('get_consultas_with_medico', params: {'_utente_id': id}).execute();
     //Sucesso
     if (response.error == null) {
       return CreateDBResponse(
