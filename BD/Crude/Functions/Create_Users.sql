@@ -46,8 +46,6 @@ IF _nome_completo IS NULL OR _nome_completo = '' THEN
         RAISE EXCEPTION 'Password é um campo obrigatorio.';
     END IF;
 	
-	 _password:=crypt(create_user._password, gen_salt('bf', 10));
-	
 	IF _sexo_utente IS NULL THEN
         RAISE EXCEPTION 'Genero é um campo obrigatorio.';
     END IF;
