@@ -188,3 +188,87 @@ Future<CreateDBResponse> getUtenteConsultas({
     );
   }
 }
+
+Future<CreateDBResponse> getUtentePrecisao({
+  required int? id,
+}) async {
+  try {
+    final response = await supabase
+        .rpc('get_prescricoes_utente', params: {'_utente_id': id}).execute();
+    //Sucesso
+    if (response.error == null) {
+      return CreateDBResponse(
+        success: true,
+        data: response.data,
+      );
+    } else {
+      // Falha, com mensagem de erro
+      return CreateDBResponse(
+        success: false,
+        errorMessage: response.error?.message,
+      );
+    }
+  } catch (e) {
+    // Falha, com exceção capturada
+    return CreateDBResponse(
+      success: false,
+      errorMessage: e.toString(),
+    );
+  }
+}
+
+Future<CreateDBResponse> getUtenteExames({
+  required int? id,
+}) async {
+  try {
+    final response = await supabase
+        .rpc('get_exames_utente', params: {'_utente_id': id}).execute();
+    //Sucesso
+    if (response.error == null) {
+      return CreateDBResponse(
+        success: true,
+        data: response.data,
+      );
+    } else {
+      // Falha, com mensagem de erro
+      return CreateDBResponse(
+        success: false,
+        errorMessage: response.error?.message,
+      );
+    }
+  } catch (e) {
+    // Falha, com exceção capturada
+    return CreateDBResponse(
+      success: false,
+      errorMessage: e.toString(),
+    );
+  }
+}
+
+Future<CreateDBResponse> getUtenteRegistroMedico({
+  required int? id,
+}) async {
+  try {
+    final response = await supabase.rpc('get_registros_medicos_utente',
+        params: {'_utente_id': id}).execute();
+    //Sucesso
+    if (response.error == null) {
+      return CreateDBResponse(
+        success: true,
+        data: response.data,
+      );
+    } else {
+      // Falha, com mensagem de erro
+      return CreateDBResponse(
+        success: false,
+        errorMessage: response.error?.message,
+      );
+    }
+  } catch (e) {
+    // Falha, com exceção capturada
+    return CreateDBResponse(
+      success: false,
+      errorMessage: e.toString(),
+    );
+  }
+}

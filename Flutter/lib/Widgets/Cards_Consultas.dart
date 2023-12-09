@@ -1,95 +1,66 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../Class/Class_Consulta.dart';
-import '../Menus/MainMenu.dart';
 
-class ConsultaCard extends StatefulWidget {
+class ConsultaCard extends StatelessWidget {
   final Consulta consultaDetails;
 
-  ConsultaCard(
-      {Key? key,
-      required this.consultaDetails // Torna o callback um parâmetro obrigatório
-      })
-      : super(key: key);
+  const ConsultaCard({
+    Key? key,
+    required this.consultaDetails,
+  }) : super(key: key);
 
-  @override
-  State<ConsultaCard> createState() => _MedicationCard();
-}
-
-class _MedicationCard extends State<ConsultaCard> {
-  bool isExpanded = false;
   @override
   Widget build(BuildContext context) {
     return Card(
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(12.0),
-      ),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12.0)),
       elevation: 4.0,
       child: ExpansionTile(
         title: Text(
-          widget.consultaDetails.especialidade,
-          style: const TextStyle(
-            fontSize: 18.0,
-            fontWeight: FontWeight.bold,
-          ),
+          consultaDetails.especialidade,
+          style: TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
         ),
-        subtitle: !isExpanded
-            ? Text(formatDateTime(widget.consultaDetails.dataConsulta))
-            : null,
+        subtitle: Text(formatDateTime(consultaDetails.dataConsulta)),
         leading: CircleAvatar(
           backgroundColor: Colors.grey[200],
-          child: const Icon(Icons.today_outlined, color: Colors.black54),
+          child: Icon(Icons.today_outlined, color: Colors.black54),
         ),
-        children: [
-          Padding(
-            padding: const EdgeInsets.all(16.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                buildDetailRow(
-                    'Nome do Medico:', widget.consultaDetails.nomeMedico),
-                buildDetailRow(
-                    'Especialidade:', widget.consultaDetails.especialidade),
-                buildDetailRow('Data da Consulta:',
-                    formatDateTime(widget.consultaDetails.dataConsulta)),
-                buildDetailRow(
-                    'Observações:', widget.consultaDetails.observacoes),
-              ],
-            ),
-          ),
-        ],
-        onExpansionChanged: (expanded) {
-          setState(() {
-            isExpanded = expanded;
-          });
-        },
+        children: _buildDetails(),
       ),
     );
   }
 
-  Widget buildDetailRow(String title, String value) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 8.0),
-      child: Row(
-        children: [
-          Text(
-            '$title ',
-            style: const TextStyle(fontWeight: FontWeight.bold),
-          ),
-          Flexible(
-            child: Text(
-              value,
-              overflow: TextOverflow.ellipsis,
-            ),
-          ),
-        ],
-      ),
-    );
+  List<Widget> _buildDetails() {
+    var details = {
+      'Nome do Médico': consultaDetails.nomeMedico,
+      'Especialidade': consultaDetails.especialidade,
+      'Data da Consulta': formatDateTime(consultaDetails.dataConsulta),
+      'Observações': consultaDetails.observacoes,
+    };
+
+    return details.entries
+        .map((entry) => Padding(
+              padding: const EdgeInsets.symmetric(
+                  horizontal: 16.0,
+                  vertical: 0.0), // Ajuste o padding horizontal como necessário
+              child: buildDetailRow(entry.key, entry.value),
+            ))
+        .toList();
   }
+
+  Widget buildDetailRow(String title, String value) => Padding(
+        padding: const EdgeInsets.only(bottom: 8.0),
+        child: Row(
+          children: [
+            Text('$title ',
+                style: const TextStyle(fontWeight: FontWeight.bold)),
+            Flexible(child: Text(value, overflow: TextOverflow.ellipsis)),
+          ],
+        ),
+      );
 
   String formatDateTime(String dateString) {
     DateTime date = DateTime.parse(dateString).toLocal();
-    return DateFormat('dd/MM/yyyy HH:mm')
-        .format(date); // Formato de data e hora
+    return DateFormat('dd/MM/yyyy HH:mm').format(date);
   }
 }

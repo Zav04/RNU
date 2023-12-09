@@ -6,6 +6,12 @@ import '../Widgets/Cards_Utente.dart';
 import 'package:gap/gap.dart';
 import '../Widgets/Cards_Consultas.dart';
 import '../Class/Class_Consulta.dart';
+import '../Class/Class_Precricao.dart';
+import '../Widgets/Cards_Precrições.dart';
+import '../Class/Class_Exames.dart';
+import '../Widgets/Cards_Exames.dart';
+import '../Class/Class_RegistoMedico.dart';
+import '../Widgets/Cards_RegistroMedico.dart';
 
 class MainMenu extends StatefulWidget {
   final User user;
@@ -18,6 +24,9 @@ class _MainMenuState extends State<MainMenu> {
   // Dia que o calendário está focando
   List<UtenteDetails> appointmentUtente = [];
   List<Consulta> appointmentConsultas = [];
+  List<Prescricao> appointmentPrecricoes = [];
+  List<Exames> appointmentExames = [];
+  List<RegistoMedico> appointmentRegistoMedico = [];
   int _selectedIndex = 0;
   @override
   void initState() {
@@ -43,12 +52,22 @@ class _MainMenuState extends State<MainMenu> {
         });
         break;
       case 2:
-        // Lógica para o índice 1, por exemplo, consultas
-        //fetchAppointments(widget.user.userId);
+        setState(() {
+          appointmentPrecricoes = [];
+          fetchPrecrisoes(widget.user.userId);
+        });
         break;
       case 3:
-        // Lógica para o índice 1, por exemplo, consultas
-        //fetchAppointments(widget.user.userId);
+        setState(() {
+          appointmentExames = [];
+          fetchExames(widget.user.userId);
+        });
+        break;
+      case 4:
+        setState(() {
+          appointmentRegistoMedico = [];
+          fetchRegistoMedico(widget.user.userId);
+        });
         break;
       // Adicione mais casos conforme necessário
     }
@@ -89,15 +108,49 @@ class _MainMenuState extends State<MainMenu> {
           });
     } else if (_selectedIndex == 2) {
       cards = ListView.builder(
-        itemCount: appointmentUtente
-            .length, // Aqui você deverá ajustar para a quantidade correta de consultas
-        itemBuilder: (context, index) {
-          return ConsultaCard(
-            consultaDetails: appointmentConsultas[
-                index], // E aqui provavelmente será um objeto diferente, não um UtenteDetails
-          );
-        },
-      );
+          itemCount: appointmentPrecricoes
+              .length, // Aqui você deverá ajustar para a quantidade correta de consultas
+          itemBuilder: (context, index) {
+            if (appointmentPrecricoes.isNotEmpty) {
+              var precrisaoDetail = appointmentPrecricoes[index];
+              return PrescricaoCard(
+                prescricaoDetails:
+                    precrisaoDetail, // E aqui provavelmente será um objeto diferente, não um UtenteDetails
+              );
+            } else {
+              return Container();
+            }
+          });
+    } else if (_selectedIndex == 3) {
+      cards = ListView.builder(
+          itemCount: appointmentExames
+              .length, // Aqui você deverá ajustar para a quantidade correta de consultas
+          itemBuilder: (context, index) {
+            if (appointmentExames.isNotEmpty) {
+              var exameDetail = appointmentExames[index];
+              return ExamesCard(
+                examesDetails:
+                    exameDetail, // E aqui provavelmente será um objeto diferente, não um UtenteDetails
+              );
+            } else {
+              return Container();
+            }
+          });
+    } else if (_selectedIndex == 4) {
+      cards = ListView.builder(
+          itemCount: appointmentRegistoMedico
+              .length, // Aqui você deverá ajustar para a quantidade correta de consultas
+          itemBuilder: (context, index) {
+            if (appointmentRegistoMedico.isNotEmpty) {
+              var registoMedicoDetail = appointmentRegistoMedico[index];
+              return RegistoMedicoCard(
+                registoMedicoDetails:
+                    registoMedicoDetail, // E aqui provavelmente será um objeto diferente, não um UtenteDetails
+              );
+            } else {
+              return Container();
+            }
+          });
     } else {
       // Você pode adicionar mais condições para outros índices ou um conteúdo padrão
       cards =
@@ -131,15 +184,17 @@ class _MainMenuState extends State<MainMenu> {
           },
           items: const [
             BottomNavigationBarItem(
-              icon: Icon(Icons.account_circle),
+              icon: Icon(Icons.account_circle_outlined),
               label: 'Perfil',
             ),
             BottomNavigationBarItem(
-                icon: Icon(Icons.schedule), label: 'Consultas'),
+                icon: Icon(Icons.schedule_outlined), label: 'Consultas'),
             BottomNavigationBarItem(
-                icon: Icon(Icons.assignment), label: 'Prescricoes'),
+                icon: Icon(Icons.receipt_long_outlined), label: 'Prescricoes'),
             BottomNavigationBarItem(
-                icon: Icon(Icons.medical_information),
+                icon: Icon(Icons.assignment_outlined), label: 'Exames'),
+            BottomNavigationBarItem(
+                icon: Icon(Icons.medical_information_outlined),
                 label: 'Registros\n Medicos')
           ]),
     );
@@ -168,6 +223,52 @@ class _MainMenuState extends State<MainMenu> {
     } else {
       setState(() {
         appointmentConsultas = [];
+      });
+    }
+  }
+
+  void fetchPrecrisoes(int userId) async {
+    var result = await getUtentePrecisao(id: userId);
+    if (result.data is List) {
+      setState(() {
+        appointmentPrecricoes = result.data
+            .map<Prescricao>((item) => Prescricao.fromJson(item))
+            .toList();
+      });
+    } else {
+      setState(() {
+        appointmentPrecricoes = [];
+      });
+    }
+  }
+
+  //Do teh fetch for exames
+  void fetchExames(int userId) async {
+    var result = await getUtenteExames(id: userId);
+    if (result.data is List) {
+      setState(() {
+        appointmentExames =
+            result.data.map<Exames>((item) => Exames.fromJson(item)).toList();
+      });
+    } else {
+      setState(() {
+        appointmentExames = [];
+      });
+    }
+  }
+
+  //Do teh fetch for RegistroMedico
+  void fetchRegistoMedico(int userId) async {
+    var result = await getUtenteRegistroMedico(id: userId);
+    if (result.data is List) {
+      setState(() {
+        appointmentRegistoMedico = result.data
+            .map<RegistoMedico>((item) => RegistoMedico.fromJson(item))
+            .toList();
+      });
+    } else {
+      setState(() {
+        appointmentRegistoMedico = [];
       });
     }
   }

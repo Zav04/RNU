@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
-import '../Class/Class_Exames.dart'; // Certifique-se de que o nome do arquivo está correto
+import '../Class/Class_RegistoMedico.dart';
 
-class ExamesCard extends StatelessWidget {
-  final Exames examesDetails; // Verifique se o nome da classe está correto
+class RegistoMedicoCard extends StatelessWidget {
+  final RegistoMedico registoMedicoDetails;
 
-  const ExamesCard({Key? key, required this.examesDetails}) : super(key: key);
+  const RegistoMedicoCard({
+    Key? key,
+    required this.registoMedicoDetails,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -14,10 +16,10 @@ class ExamesCard extends StatelessWidget {
       elevation: 4.0,
       child: ExpansionTile(
         title: Text(
-          examesDetails.tipoExame,
+          registoMedicoDetails.nomeMedico,
           style: const TextStyle(fontSize: 18.0, fontWeight: FontWeight.bold),
         ),
-        subtitle: Text(formatDateTime(examesDetails.dataExame)),
+        subtitle: Text(registoMedicoDetails.especialidade),
         leading: CircleAvatar(
           backgroundColor: Colors.grey[200],
           child: const Icon(Icons.today_outlined, color: Colors.black54),
@@ -29,12 +31,9 @@ class ExamesCard extends StatelessWidget {
 
   List<Widget> _buildDetails() {
     var details = {
-      'Nome do Exame': examesDetails.tipoExame,
-      'Dosagem': examesDetails.dataExame,
-      'Data Do Exame': formatDateTime(examesDetails.dataExame),
-      'Resultados': examesDetails.resultados,
-      'Médico': examesDetails.nomeMedico,
-      'Especialidade': examesDetails.especialidade,
+      'Nome do Médico': registoMedicoDetails.nomeMedico,
+      'Especialidade': registoMedicoDetails.especialidade,
+      'Historico': registoMedicoDetails.historico,
     };
 
     return details.entries
@@ -57,9 +56,4 @@ class ExamesCard extends StatelessWidget {
           ],
         ),
       );
-
-  String formatDateTime(String dateString) {
-    DateTime date = DateTime.parse(dateString).toLocal();
-    return DateFormat('dd/MM/yyyy HH:mm').format(date);
-  }
 }
