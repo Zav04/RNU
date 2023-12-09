@@ -22,7 +22,8 @@ class RegistoMedicoCard extends StatelessWidget {
         subtitle: Text(registoMedicoDetails.especialidade),
         leading: CircleAvatar(
           backgroundColor: Colors.grey[200],
-          child: const Icon(Icons.today_outlined, color: Colors.black54),
+          child: const Icon(Icons.medical_information_outlined,
+              color: Colors.black54),
         ),
         children: _buildDetails(),
       ),

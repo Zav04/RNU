@@ -22,7 +22,7 @@ class PrescricaoCard extends StatelessWidget {
         subtitle: Text(formatDateTime(prescricaoDetails.dataConsulta)),
         leading: CircleAvatar(
           backgroundColor: Colors.grey[200],
-          child: const Icon(Icons.today_outlined, color: Colors.black54),
+          child: const Icon(Icons.receipt_long_outlined, color: Colors.black54),
         ),
         children: _buildDetails(),
       ),

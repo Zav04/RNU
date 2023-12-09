@@ -23,7 +23,7 @@ class ConsultaCard extends StatelessWidget {
         subtitle: Text(formatDateTime(consultaDetails.dataConsulta)),
         leading: CircleAvatar(
           backgroundColor: Colors.grey[200],
-          child: Icon(Icons.today_outlined, color: Colors.black54),
+          child: Icon(Icons.schedule_outlined, color: Colors.black54),
         ),
         children: _buildDetails(),
       ),

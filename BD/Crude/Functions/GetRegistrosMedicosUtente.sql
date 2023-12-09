@@ -20,3 +20,5 @@ BEGIN
         rm.utente_id = _utente_id;
 END;
 $$ LANGUAGE plpgsql;
+
+
